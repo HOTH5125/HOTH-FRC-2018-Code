@@ -26,11 +26,15 @@ public class Robot extends IterativeRobot {
 	SpeedControllerGroup rightSide = new SpeedControllerGroup (trMotor,brMotor);
 	DifferentialDrive robot = new DifferentialDrive(leftSide,rightSide);	
 	Joystick leftStick, rightStick;
+	ADXRS450_Gyro gyro;
+	double error = gyro.getAngle() - 90;
 
 	@Override
 	public void robotInit() {		
 		leftStick = new Joystick(0);
     	rightStick = new Joystick(1);
+    	gyro = new ADXRS450_Gyro();
+		gyro.calibrate();
 	}
 	
 	@Override
@@ -44,8 +48,18 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousInit() {
+		gyro.reset();
 		while( isAutonomous() && isEnabled()) {
 			
+			while (Math.abs(error) > 5) {
+				if (error > 5) {
+					leftSide.set(0.25);
+				}
+				if(error < -5) {
+					rightSide.set(-0.25);
+				}
+				error = gyro.getAngle()-90;
+			}
 		}
 	}
 }
