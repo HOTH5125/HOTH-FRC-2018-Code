@@ -27,8 +27,8 @@ public class Robot extends IterativeRobot {
 	Joystick leftStick, rightStick;
 	ADXRS450_Gyro gyro;
 	double dist = 0.0;
-	double error = 0.0;
-	double gyroP = 1/90; //go full speed per 90 deg
+//	double error = 0.0;
+//	double gyroP = 1/90; //go full speed per 90 deg
 	Encoder enc;
 	
 	@Override
@@ -36,8 +36,8 @@ public class Robot extends IterativeRobot {
 		leftStick = new Joystick(0);
     	rightStick = new Joystick(1);
     	gyro = new ADXRS450_Gyro();
-		gyro.calibrate();
-		gyro.reset();
+//		gyro.calibrate();
+//		gyro.reset();
 		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
 		enc.setDistancePerPulse(1.0/1440);	
 		enc.setReverseDirection(true);
@@ -67,31 +67,31 @@ public class Robot extends IterativeRobot {
 			}
 			leftSide.set(0.0);
 			rightSide.set(0.0);
-			error = 90;
-			double speed = 1.0;	
-			System.out.println(gyro.getAngle());
-			while (Math.abs(error) != 0) {
-				System.out.println(gyro.getAngle());
-				speed = error / 90;
-				if(speed >1) {
-					speed = .5;
-				}
-				if(speed < -1) {
-					speed = -.5;
-				}
-				if (error < 0) {
-					leftSide.set(-speed);
-					rightSide.set(-speed);					
-				}
-				if(error > 0) {
-					rightSide.set(-speed);
-					leftSide.set(-speed);
-				}
-				error = gyro.getAngle()-90;
-			}
-			System.out.println(gyro.getAngle());
-			leftSide.set(0.0);
-			rightSide.set(0.0);
+//			error = 90;
+//			double speed = 1.0;	
+//			System.out.println(gyro.getAngle());
+//			while (Math.abs(error) != 0) {
+//				System.out.println(gyro.getAngle());
+//				speed = error / 90;
+//				if(speed >1) {
+//					speed = .5;
+//				}
+//				if(speed < -1) {
+//					speed = -.5;
+//				}
+//				if (error < 0) {
+//					leftSide.set(-speed);
+//					rightSide.set(-speed);					
+//				}
+//				if(error > 0) {
+//					rightSide.set(-speed);
+//					leftSide.set(-speed);
+//				}
+//				error = gyro.getAngle()-90;
+//			}
+//			System.out.println(gyro.getAngle());
+//			leftSide.set(0.0);
+//			rightSide.set(0.0);
 		}
 	}
 }
