@@ -26,8 +26,10 @@ public class Robot extends IterativeRobot {
 	DifferentialDrive robot = new DifferentialDrive(leftSide,rightSide);	
 	Joystick leftStick, rightStick;
 	ADXRS450_Gyro gyro;
+	double dist = 0.0;
 	double error = 0.0;
 	double gyroP = 1/90; //go full speed per 90 deg
+	Encoder enc;
 	
 	@Override
 	public void robotInit() {		
@@ -36,6 +38,12 @@ public class Robot extends IterativeRobot {
     	gyro = new ADXRS450_Gyro();
 		gyro.calibrate();
 		gyro.reset();
+		enc = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+		enc.setDistancePerPulse(1.0/1440);	
+		enc.setReverseDirection(true);
+		enc.setMaxPeriod(.1);
+		enc.setMinRate(10);
+		enc.setSamplesToAverage(7);
 	}
 	
 	@Override
@@ -52,6 +60,13 @@ public class Robot extends IterativeRobot {
 		gyro.reset();
 		while( isAutonomous() && isEnabled()) {
 			System.out.println(gyro.getAngle());
+			while ( dist < 10.0 ) {
+				dist = (enc.getDistance() * (6*Math.PI)); //possibility is to multiply everything by 2
+				leftSide.set(-.25);
+				rightSide.set(.25);
+			}
+			leftSide.set(0.0);
+			rightSide.set(0.0);
 			error = 90;
 			double speed = 1.0;	
 			System.out.println(gyro.getAngle());
