@@ -28,7 +28,6 @@ public class Robot extends IterativeRobot {
 	ADXRS450_Gyro gyro;
 	double error = 0.0;
 	double gyroP = 1/90; //go full speed per 90 deg
-	Encoder enc;
 	
 	@Override
 	public void robotInit() {		
